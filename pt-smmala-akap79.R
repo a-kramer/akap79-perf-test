@@ -16,12 +16,7 @@ stepSize <- function(beta){
 	return(7e-3*exp(-9*beta))
 }
 
-a <- commandArgs(trailingOnly=TRUE)
-if (length(a)>0){
-      N <- as.integer(a[1])
-} else {
-      N <- 50000           # default sample size
-}
+      N <- 20000           # default sample size
 
 h <- 0.01                  # step size
 modelName <- "AKAP79"
@@ -107,7 +102,7 @@ ptSMMALA <- mcmc_mpi(smmala,comm=comm,swapDelay=0,swapFunc=pbdMPI_bcast_reduce_t
 
 ## beta,parMCMC,simulate,logLikelihood,dprior,gradLogLikelihood=NULL,gprior=NULL,fisherInformation=NULL
 A <- function(a) { # step-size adjuster
-    return(0.5 + a^4/(0.25^4 + a^4))
+    return(0.5 + a^4/(0.5^4 + a^4))
 }
 
 ## ----converge-and-adapt-------------------------------------------------------
@@ -145,7 +140,7 @@ for (j in seq(4)){
 	)
 }
 time_ <- difftime(Sys.time(),start_time,units="min")
-print(time_)
+cat("Finished after: ",time_,"minutes\n")
 
 cat(sprintf("rank %02i of %02i finished with an acceptance rate of %f and swap rate of %f.\n",round(r),round(cs),attr(s,"acceptanceRate"),attr(s,"swapRate")))
 finalize()

@@ -12,11 +12,7 @@ attr(comm,"rank") <- r
 attr(comm,"size") <- cs
 a <- commandArgs(trailingOnly=TRUE)
 
-if (length(a)>0){
-      N <- as.integer(a[1])
-} else {
-      N <- 50000           # default sample size
-}
+      N <- 30000           # default sample size
 
 h <- 1e-2                  # step size
 
@@ -81,7 +77,7 @@ if (r==0){
 }
 for (j in seq(4)){
 	for (i in seq(6)){
-		s <- mh(x,300,h)           # evaluate rate of acceptance
+		s <- mh(x,100,h)           # evaluate rate of acceptance
 		a <- attr(s,"acceptanceRate")
 		cat(sprintf("%10i  %12i %16.4f %16.4g\n",r,i,a,h))
 		h <- h*A(a)                # adjust h up or down
