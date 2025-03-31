@@ -89,7 +89,7 @@ for (j in seq(4)){
 	}
 	pbdMPI::barrier()
 	s <- ptMetropolis(x,N,h) # the main amount of work is done here
-	saveRDS(s,file=sprintf("akap79-pt-mh-sample-%i-rank-%i.RDS",j,r))
+	saveRDS(s,file=sprintf(akap79-pt-mh-%i-sample-%i-rank-%i.RDS",R,j,r))
 	## ---- when all are done, we load the sampled points from the files but only for the right temperature:
 	pbdMPI::barrier()
 	f <- dir(pattern=sprintf('^akap79-pt-mh-%i-sample-%i-rank-.*RDS$',R,j))
