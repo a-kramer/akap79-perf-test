@@ -26,7 +26,7 @@ set.seed(7619201)
 
 distanceMeasure <- function(funcSim, dataExpr=Inf, dataErr=Inf){
   if (all(is.finite(funcSim))){
-    distance <- mean((1/71.67*(funcSim-as.matrix(dataExpr))/as.matrix(dataErr))^2, na.rm=TRUE)
+    distance <- mean(((funcSim-t(dataExpr))/t(dataErr))^2, na.rm=TRUE)
   } else {
     distance <- Inf
   }
@@ -53,8 +53,6 @@ options(mc.cores=parallel::detectCores())
 pC <- preCalibration(objectiveFunction, npc, rprior, rep = 5, num=nChains)
 cat("\nPreCalibration:")
 print(Sys.time()-start_time_preCalibration)
-
-
 
 ## Get Starting Parameters from Pre-Calibration
 options(mc.cores=min(parallel::detectCores(),length(ex)))

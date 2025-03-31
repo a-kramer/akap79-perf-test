@@ -123,9 +123,9 @@ for (j in seq(4)){
 	saveRDS(s,file=sprintf("AKAP79-pt-smmala-sample-%i-rank-%i.RDS",j,r))
 	## ---- when all are done, we load the sampled points from the files but only for the right temperature:
 	pbdMPI::barrier()
-	f <- dir(pattern=sprintf("^AKAP79-pt-smmala-sample-%i-rank-.*RDS$",j))
+	f <- dir(pattern=sprintf("^AKAP79-pt-smmala-%i-sample-%i-rank-.*RDS$",R,j))
 	X <- uqsa::gatherSample(f,beta)
-	saveRDS(X,file=sprintf("AKAP79-temperature-ordered-pt-smmala-sample-%i-for-rank-%i.RDS",j,r))
+	saveRDS(X,file=sprintf("AKAP79-temperature-ordered-pt-smmala-%i-sample-%i-for-rank-%i.RDS",R,j,r))
 	x <- mcmcInit(
 		beta,
 		as.numeric(tail(X,1)), # last row
