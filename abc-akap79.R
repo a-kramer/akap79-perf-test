@@ -5,8 +5,8 @@ library(uqsa)
 library(parallel)
 
 # Define Number of Samples for the Precalibration (npc) and each ABC-MCMC chain (ns)
-ns <- 80000 # Size of the sub-sample from each chain
-npc <- 500 # pre-calibration sample size
+ns <- 800 # Size of the sub-sample from each chain
+npc <- 5000 # pre-calibration sample size
 # Define ABC-MCMC Settings
 delta <- 1
 
