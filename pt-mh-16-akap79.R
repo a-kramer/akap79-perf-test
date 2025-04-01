@@ -30,8 +30,10 @@ parMCMC <- log10(sb$Parameter[["!DefaultValue"]]) #c(1.225141, -2.667506, -2.937
 #
 stopifnot("!Max" %in% names(sb$Parameter))
 stopifnot("!Min" %in% names(sb$Parameter))
-mu <- 0.5*(log10(sb$Parameter[["!Max"]])+log10(sb$Parameter[["!Min"]]))
-stdv <- 0.5*(log10(sb$Parameter[["!Max"]])-log10(sb$Parameter[["!Min"]]))
+
+  mu <- 0.50*(log10(sb$Parameter[["!Max"]])+log10(sb$Parameter[["!Min"]]))
+stdv <- 0.25*(log10(sb$Parameter[["!Max"]])-log10(sb$Parameter[["!Min"]]))
+
 stopifnot(length(mu)==length(stdv))
 stopifnot(length(parMCMC)==length(mu))
 
@@ -44,6 +46,8 @@ sim <- simcf(ex,modelName,log10ParMap) # or simulator.c
 ## ----likelihood---------------------------------------------------------------
 logLH <- function(y,h,stdv,name){
 	n <- sum(!is.na(stdv))
+	# override stdv to be more su=ymmetric between the experiments
+	stdv <- y*0.05+apply(y,1,FUN=max,na.rm=TRUE)*0.05
 	llf_const <- sum(log(stdv),na.rm=TRUE) + 0.5*log(2*pi)*n
 	llf_sq <- 0.5*sum(((y - h)/stdv)^2,na.rm=TRUE)
 	return(-llf_const-llf_sq)
@@ -88,7 +92,7 @@ for (j in seq(4)){
 		x <- attr(s,"lastPoint")   # start next iteration from last point
 	}
 	pbdMPI::barrier()
-	s <- ptMetropolis(x,N,h) # the main amount of work is done here
+	s <- ptMetropolis(x,N,h/2) # the main amount of work is done here
 	saveRDS(s,file=sprintf("akap79-pt-mh-%i-sample-%i-rank-%i.RDS",R,j,r))
 	## ---- when all are done, we load the sampled points from the files but only for the right temperature:
 	pbdMPI::barrier()

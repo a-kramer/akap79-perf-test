@@ -8,7 +8,7 @@ library(parallel)
 ns <- 800 # Size of the sub-sample from each chain
 npc <- 5000 # pre-calibration sample size
 # Define ABC-MCMC Settings
-delta <- 1
+delta <- 10
 
 sb <- readRDS("AKAP79-sb.RDS")
 ex <- readRDS("AKAP79-ex.RDS")

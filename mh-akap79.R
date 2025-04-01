@@ -41,6 +41,7 @@ sim <- simcf(ex,modelName,log10ParMap) # or simulator.c
 ## ----likelihood---------------------------------------------------------------
 logLH <- function(y,h,stdv,name){
 	n <- sum(!is.na(stdv))
+	stdv <- y*0.05+apply(y,1,FUN=max,na.rm=TRUE)*0.05
 	llf_const <- sum(log(stdv),na.rm=TRUE) + 0.5*log(2*pi)*n
 	llf_sq <- 0.5*sum(((y - h)/stdv)^2,na.rm=TRUE)
 	return(-llf_const-llf_sq)
